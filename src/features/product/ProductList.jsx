@@ -1,5 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
-import { fetchProductsByFiltersAsync, selectAllProducts } from "./productSlice";
+import {
+  fetchProductsByFiltersAsync,
+  selectAllProducts,
+  selectTotalItems,
+} from "./productSlice";
 import { Fragment, useEffect, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import {
@@ -11,6 +15,7 @@ import Pagination from "../../components/productCollection/Pagination";
 import MobileFilter from "../../components/productCollection/MobileFilter";
 import DesktopFilter from "../../components/productCollection/DesktopFilter";
 import ProductGrid from "../../components/productCollection/ProductGrid";
+import { ITEMS_PER_PAGE } from "../../app/constants";
 
 const sortOptions = [
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
@@ -91,7 +96,9 @@ const ProductList = () => {
 
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState({});
+  const [page, setPage] = useState(1);
   const products = useSelector(selectAllProducts);
+  const totalItems = useSelector(selectTotalItems);
   const dispatch = useDispatch();
 
   const handleFilter = (e, section, option) => {
@@ -118,9 +125,19 @@ const ProductList = () => {
     setSort(sort);
   };
 
+  const handlePage = (page) => {
+    // console.log({ page });
+    setPage(page);
+  };
+
   useEffect(() => {
-    dispatch(fetchProductsByFiltersAsync({ filter, sort }));
-  }, [dispatch, filter, sort]);
+    const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
+    dispatch(fetchProductsByFiltersAsync({ filter, sort, pagination }));
+  }, [dispatch, filter, sort, page]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [totalItems, sort]);
 
   return (
     <div className="bg-white">
@@ -220,7 +237,12 @@ const ProductList = () => {
           {/* section of product and filters ends */}
 
           {/* Pagination */}
-          <Pagination />
+          <Pagination
+            handlePage={handlePage}
+            page={page}
+            setPage={setPage}
+            totalItems={totalItems}
+          />
         </main>
       </div>
     </div>
