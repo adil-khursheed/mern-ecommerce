@@ -6,6 +6,8 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCartItems } from "../../features/cart/cartSlice";
 
 const user = {
   name: "Tom Cook",
@@ -31,6 +33,8 @@ function classNames(...classes) {
 }
 
 const Navbar = ({ children }) => {
+  const items = useSelector(selectCartItems);
+
   return (
     <>
       <div className="min-h-full">
@@ -78,9 +82,11 @@ const Navbar = ({ children }) => {
                             className="h-6 w-6"
                             aria-hidden="true"
                           />
-                          <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-[8px] font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20 absolute -top-1 -right-1">
-                            3
-                          </span>
+                          {items.length > 0 && (
+                            <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-[8px] font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20 absolute -top-1 -right-1">
+                              {items.length}
+                            </span>
+                          )}
                         </button>
                       </Link>
 
@@ -187,9 +193,11 @@ const Navbar = ({ children }) => {
                           className="h-6 w-6"
                           aria-hidden="true"
                         />
-                        <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-[10px] font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20 absolute -top-1 -right-1">
-                          3
-                        </span>
+                        {items.length > 0 && (
+                          <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-[10px] font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20 absolute -top-1 -right-1">
+                            {items.length}
+                          </span>
+                        )}
                       </button>
                     </Link>
                   </div>
