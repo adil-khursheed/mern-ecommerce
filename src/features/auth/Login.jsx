@@ -36,9 +36,12 @@ const Login = () => {
             className="space-y-6"
             onSubmit={handleSubmit((data) => {
               dispatch(
-                checkUserAsync({ email: data.email, password: data.password })
+                checkUserAsync({
+                  email: data.email,
+                  password: data.password,
+                  addresses: [],
+                })
               );
-              console.log(data);
             })}>
             <div>
               <label

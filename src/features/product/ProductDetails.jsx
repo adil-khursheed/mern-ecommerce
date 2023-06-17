@@ -49,7 +49,9 @@ const ProductDetails = () => {
 
   const handleCart = (e) => {
     e.preventDefault();
-    dispatch(addToCartAsync({ ...product, quantity: 1, user: user.id }));
+    const newItemAddedInCart = { ...product, quantity: 1, user: user.id };
+    delete newItemAddedInCart["id"];
+    dispatch(addToCartAsync(newItemAddedInCart));
   };
 
   useEffect(() => {
