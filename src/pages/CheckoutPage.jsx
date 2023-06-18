@@ -11,12 +11,19 @@ import {
   updateUserAsync,
 } from "../features/auth/authSlice";
 import { useState } from "react";
+import {
+  createOrderAsync,
+  selectCurrentOrder,
+} from "../features/order/orderSlice";
 
 const CheckoutPage = () => {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("cardPayment");
 
   const products = useSelector(selectCartItems);
+  const user = useSelector(selectLoggedInUser);
+  const currentOrder = useSelector(selectCurrentOrder);
+
   const dispatch = useDispatch();
 
   const {
@@ -25,8 +32,6 @@ const CheckoutPage = () => {
     reset,
     formState: { errors },
   } = useForm();
-
-  const user = useSelector(selectLoggedInUser);
 
   const totalAmount = products.reduce(
     (amount, item) => item.price * item.quantity + amount,
@@ -52,11 +57,36 @@ const CheckoutPage = () => {
     setPaymentMethod(e.target.value);
   };
 
-  const handleOrder = () => {};
+  const handleOrder = () => {
+    if (selectedAddress && paymentMethod) {
+      const order = {
+        products,
+        totalAmount,
+        totalItems,
+        user,
+        paymentMethod,
+        selectedAddress,
+        status: "pending", // other status can be delivered, received
+      };
+      dispatch(createOrderAsync(order));
+      // need to redirect from here to a new page of order success
+    } else {
+      // TODO: we can use proper messaging popup here
+      alert("Enter Address and Payment Method!");
+    }
+    // TODO: redirect to order-success page
+    // TODO: clear the cart after order
+    // TODO: on server update the stock of items
+  };
 
   return (
     <>
       {!products.length && <Navigate to={"/"} replace={true}></Navigate>}
+      {currentOrder && (
+        <Navigate
+          to={`/order-success/${currentOrder.id}`}
+          replace={true}></Navigate>
+      )}
       <div className="mx-auto max-w-7xl mt-8 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
           <div className="lg:col-span-3 mb-8">
