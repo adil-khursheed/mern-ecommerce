@@ -6,22 +6,20 @@ import {
   updateCartAsync,
 } from "../features/cart/cartSlice";
 import { useForm } from "react-hook-form";
-import {
-  selectLoggedInUser,
-  updateUserAsync,
-} from "../features/auth/authSlice";
+import { updateUserAsync } from "../features/auth/authSlice";
 import { useState } from "react";
 import {
   createOrderAsync,
   selectCurrentOrder,
 } from "../features/order/orderSlice";
+import { selectUserInfo } from "../features/user/userSlice";
 
 const CheckoutPage = () => {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("cardPayment");
 
   const products = useSelector(selectCartItems);
-  const user = useSelector(selectLoggedInUser);
+  const user = useSelector(selectUserInfo);
   const currentOrder = useSelector(selectCurrentOrder);
 
   const dispatch = useDispatch();
@@ -322,6 +320,9 @@ const CheckoutPage = () => {
                         <div className="hidden sm:flex sm:flex-col sm:items-end">
                           <p className="text-sm leading-6 text-gray-900">
                             {address.street}
+                          </p>
+                          <p className="text-sm leading-6 text-gray-900">
+                            {address.city}
                           </p>
                           <p className="text-sm leading-6 text-gray-900">
                             {address.state}
