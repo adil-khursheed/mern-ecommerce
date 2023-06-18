@@ -49,7 +49,7 @@ const CheckoutPage = () => {
 
   const handleAddress = (e) => {
     console.log(e.target.value);
-    setSelectedAddress(e.target.value);
+    setSelectedAddress(user.addresses[e.target.value]);
   };
 
   const handlePayment = (e) => {
