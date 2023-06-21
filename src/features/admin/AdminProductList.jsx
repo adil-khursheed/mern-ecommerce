@@ -15,11 +15,11 @@ import {
   FunnelIcon,
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
-import Pagination from "../../components/productCollection/Pagination";
-import MobileFilter from "../../components/productCollection/MobileFilter";
-import DesktopFilter from "../../components/productCollection/DesktopFilter";
-import ProductGrid from "../../components/productCollection/ProductGrid";
+import AdminDesktopFilter from "../../components/adminProductCollection/AdminDesktopFilter";
 import { ITEMS_PER_PAGE } from "../../app/constants";
+import AdminProductGrid from "../../components/adminProductCollection/AdminProductGrid";
+import AdminPagination from "../../components/adminProductCollection/AdminPagination";
+import AdminMobileFilter from "../../components/adminProductCollection/AdminMobileFilter";
 
 const sortOptions = [
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
@@ -103,7 +103,7 @@ const AdminProductList = () => {
     <div className="bg-white">
       <div>
         {/* Mobile filter dialog */}
-        <MobileFilter
+        <AdminMobileFilter
           mobileFiltersOpen={mobileFiltersOpen}
           setMobileFiltersOpen={setMobileFiltersOpen}
           filter={filter}
@@ -185,19 +185,27 @@ const AdminProductList = () => {
 
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
               {/* Filters */}
-              <DesktopFilter filters={filters} handleFilter={handleFilter} />
+              <AdminDesktopFilter
+                filters={filters}
+                handleFilter={handleFilter}
+              />
 
               {/* Product grid */}
               <div className="lg:col-span-3">
+                <button
+                  type="submit"
+                  className="rounded-md bg-indigo-600 mx-8 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                  Add New Product
+                </button>
                 {/* This is our product list  */}
-                <ProductGrid products={products} />
+                <AdminProductGrid products={products} />
               </div>
             </div>
           </section>
           {/* section of product and filters ends */}
 
           {/* Pagination */}
-          <Pagination
+          <AdminPagination
             handlePage={handlePage}
             page={page}
             setPage={setPage}
