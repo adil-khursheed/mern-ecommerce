@@ -20,6 +20,7 @@ import { ITEMS_PER_PAGE } from "../../app/constants";
 import AdminProductGrid from "../../components/adminProductCollection/AdminProductGrid";
 import AdminPagination from "../../components/adminProductCollection/AdminPagination";
 import AdminMobileFilter from "../../components/adminProductCollection/AdminMobileFilter";
+import { Link } from "react-router-dom";
 
 const sortOptions = [
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
@@ -192,11 +193,13 @@ const AdminProductList = () => {
 
               {/* Product grid */}
               <div className="lg:col-span-3">
-                <button
-                  type="submit"
-                  className="rounded-md bg-indigo-600 mx-8 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                  Add New Product
-                </button>
+                <Link to={"/admin/product-form"}>
+                  <button
+                    type="submit"
+                    className="rounded-md bg-indigo-600 mx-8 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Add New Product
+                  </button>
+                </Link>
                 {/* This is our product list  */}
                 <AdminProductGrid products={products} />
               </div>

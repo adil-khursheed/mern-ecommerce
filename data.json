@@ -48,7 +48,9 @@
       "brand": "Samsung",
       "category": "smartphones",
       "thumbnail": "https://i.dummyjson.com/data/products/3/thumbnail.jpg",
-      "images": ["https://i.dummyjson.com/data/products/3/1.jpg"]
+      "images": [
+        "https://i.dummyjson.com/data/products/3/1.jpg"
+      ]
     },
     {
       "id": 4,
@@ -549,6 +551,24 @@
         "https://i.dummyjson.com/data/products/30/3.jpg",
         "https://i.dummyjson.com/data/products/30/thumbnail.jpg"
       ]
+    },
+    {
+      "title": "Macbook Air 2023",
+      "description": "Macbook Air 2023",
+      "brand": "Apple",
+      "category": "laptops",
+      "price": "1099",
+      "discountPercentage": "10",
+      "stock": "100",
+      "thumbnail": "https://i.dummyjson.com/data/products/6/thumbnail.png",
+      "images": [
+        "https://i.dummyjson.com/data/products/6/1.png",
+        "https://i.dummyjson.com/data/products/6/2.png",
+        "https://i.dummyjson.com/data/products/6/3.png",
+        "https://i.dummyjson.com/data/products/6/4.png",
+        "https://i.dummyjson.com/data/products/6/thumbnail.png"
+      ],
+      "id": 31
     }
   ],
   "brands": [
@@ -1018,7 +1038,9 @@
           "brand": "Samsung",
           "category": "smartphones",
           "thumbnail": "https://i.dummyjson.com/data/products/3/thumbnail.jpg",
-          "images": ["https://i.dummyjson.com/data/products/3/1.jpg"],
+          "images": [
+            "https://i.dummyjson.com/data/products/3/1.jpg"
+          ],
           "quantity": 1,
           "user": 1,
           "id": 1
