@@ -1,5 +1,6 @@
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
+import { discountedPrice } from "../../app/constants";
 
 const ProductGrid = ({ products }) => {
   return (
@@ -31,10 +32,7 @@ const ProductGrid = ({ products }) => {
                   </div>
                   <div className="flex flex-col items-end">
                     <p className="text-sm font-medium text-gray-900">
-                      $
-                      {Math.round(
-                        product.price * (1 - product.discountPercentage / 100)
-                      )}
+                      ${discountedPrice(product)}
                     </p>
                     <p className="text-sm font-medium text-gray-400 line-through">
                       ${product.price}
