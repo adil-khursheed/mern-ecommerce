@@ -1,22 +1,62 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
+  clearSelectedProduct,
   createProductAsync,
+  fetchProductByIdAsync,
   selectBrands,
   selectCategories,
+  selectProductById,
+  updateProductAsync,
 } from "../product/productSlice";
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 const ProductForm = () => {
   const brands = useSelector(selectBrands);
   const categories = useSelector(selectCategories);
   const dispatch = useDispatch();
+  const params = useParams();
+  const selectedProduct = useSelector(selectProductById);
 
   const {
     register,
     handleSubmit,
-    // reset,
+    setValue,
+    reset,
     formState: { errors },
   } = useForm();
+
+  useEffect(() => {
+    if (params.id) {
+      dispatch(fetchProductByIdAsync(params.id));
+    } else {
+      dispatch(clearSelectedProduct());
+    }
+  }, [dispatch, params.id]);
+
+  useEffect(() => {
+    if (selectedProduct && params.id) {
+      setValue("title", selectedProduct.title);
+      setValue("description", selectedProduct.description);
+      setValue("brand", selectedProduct.brand);
+      setValue("category", selectedProduct.category);
+      setValue("price", selectedProduct.price);
+      setValue("discountPercentage", selectedProduct.discountPercentage);
+      setValue("stock", selectedProduct.stock);
+      setValue("thumbnail", selectedProduct.thumbnail);
+      setValue("image1", selectedProduct.images[0]);
+      setValue("image2", selectedProduct.images[1]);
+      setValue("image3", selectedProduct.images[2]);
+      setValue("image4", selectedProduct.images[3]);
+    }
+  }, [setValue, selectedProduct, params.id]);
+
+  const handleDeleteProduct = () => {
+    const product = { ...selectedProduct };
+    product.deleted = true;
+    dispatch(updateProductAsync(product));
+  };
 
   return (
     <form
@@ -31,13 +71,26 @@ const ProductForm = () => {
           product.image4,
           product.thumbnail,
         ];
+        product.rating = 0;
         delete product["image1"];
         delete product["image2"];
         delete product["image3"];
         delete product["image4"];
+        product.price = +product.price;
+        product.discountPercentage = +product.discountPercentage;
+        product.stock = +product.stock;
         console.log(product);
-        dispatch(createProductAsync(product));
-        // reset();
+
+        if (params.id) {
+          product.id = params.id;
+          product.rating = selectedProduct.rating || 0;
+
+          dispatch(updateProductAsync(product));
+          reset();
+        } else {
+          dispatch(createProductAsync(product));
+          reset();
+        }
       })}>
       <div className="space-y-12 bg-white p-10">
         <div className="border-b border-gray-900/10 pb-12">
@@ -412,6 +465,13 @@ const ProductForm = () => {
           className="text-sm font-semibold leading-6 text-gray-900">
           Cancel
         </button>
+        {selectedProduct && (
+          <button
+            onClick={handleDeleteProduct}
+            className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            Delete
+          </button>
+        )}
         <button
           type="submit"
           className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">

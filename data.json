@@ -4,9 +4,9 @@
       "id": 1,
       "title": "iPhone 9",
       "description": "An apple mobile which is nothing like apple",
-      "price": 549,
+      "price": 699,
       "discountPercentage": 12.96,
-      "rating": 4.69,
+      "rating": 0,
       "stock": 94,
       "brand": "Apple",
       "category": "smartphones",
@@ -25,7 +25,7 @@
       "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
       "price": 899,
       "discountPercentage": 17.94,
-      "rating": 4.44,
+      "rating": 0,
       "stock": 34,
       "brand": "Apple",
       "category": "smartphones",
@@ -34,8 +34,10 @@
         "https://i.dummyjson.com/data/products/2/1.jpg",
         "https://i.dummyjson.com/data/products/2/2.jpg",
         "https://i.dummyjson.com/data/products/2/3.jpg",
+        "https://i.dummyjson.com/data/products/2/thumbnail.jpg",
         "https://i.dummyjson.com/data/products/2/thumbnail.jpg"
-      ]
+      ],
+      "deleted": true
     },
     {
       "id": 3,
@@ -56,7 +58,7 @@
       "id": 4,
       "title": "OPPOF19",
       "description": "OPPO F19 is officially announced on April 2021.",
-      "price": 280,
+      "price": 380,
       "discountPercentage": 17.91,
       "rating": 4.3,
       "stock": 123,
@@ -69,7 +71,8 @@
         "https://i.dummyjson.com/data/products/4/3.jpg",
         "https://i.dummyjson.com/data/products/4/4.jpg",
         "https://i.dummyjson.com/data/products/4/thumbnail.jpg"
-      ]
+      ],
+      "deleted": true
     },
     {
       "id": 5,
@@ -557,9 +560,9 @@
       "description": "Macbook Air 2023",
       "brand": "Apple",
       "category": "laptops",
-      "price": "1099",
-      "discountPercentage": "10",
-      "stock": "100",
+      "price": 1099,
+      "discountPercentage": 10,
+      "stock": 100,
       "thumbnail": "https://i.dummyjson.com/data/products/6/thumbnail.png",
       "images": [
         "https://i.dummyjson.com/data/products/6/1.png",

@@ -88,6 +88,7 @@ const ProductList = () => {
   useEffect(() => {
     const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
     dispatch(fetchProductsByFiltersAsync({ filter, sort, pagination }));
+    // TODO: Server will filter deleted products
   }, [dispatch, filter, sort, page]);
 
   useEffect(() => {

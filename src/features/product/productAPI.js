@@ -28,13 +28,31 @@ export function createProduct(product) {
   });
 }
 
+// Update Product
+export function updateProduct(update) {
+  return new Promise(async (resolve) => {
+    const response = await fetch(
+      "http://localhost:8080/products/" + update.id,
+      {
+        method: "PATCH",
+        body: JSON.stringify(update),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    resolve({ data });
+  });
+}
+
 // Fetch Filtered Products
 export function fetchProductsByFilters(filter, sort, pagination) {
   // filter = {"category":["smartphone","laptops"]}
   // sort = {_sort:"price",_order="desc"}
   // pagination = {_page:1,_limit:10}
-
-  // TODO : on server we will support multiple values
+  // TODO : on server we will support multiple values in filter
+  // TODO: Server will filter deleted products
 
   let queryString = "";
   for (let key in filter) {

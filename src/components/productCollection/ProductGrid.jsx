@@ -41,6 +41,11 @@ const ProductGrid = ({ products }) => {
                     </p>
                   </div>
                 </div>
+                {product.deleted && (
+                  <div className="absolute top-2 left-2 bg-red-500 py-1 px-3 rounded-tl-md">
+                    <p className="text-xs text-white">Product Deleted</p>
+                  </div>
+                )}
               </div>
             </Link>
           ))}
