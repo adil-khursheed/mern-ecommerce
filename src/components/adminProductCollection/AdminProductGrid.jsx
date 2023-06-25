@@ -48,6 +48,11 @@ const AdminProductGrid = ({ products }) => {
                       <p className="text-xs text-white">Product Deleted</p>
                     </div>
                   )}
+                  {product.stock <= 0 && (
+                    <div className="absolute top-2 right-2 bg-red-500 py-1 px-3 rounded-tr-md">
+                      <p className="text-xs text-white">Out of Stock</p>
+                    </div>
+                  )}
                 </div>
               </Link>
               <div className="mt-4">

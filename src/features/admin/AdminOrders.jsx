@@ -5,20 +5,68 @@ import {
   fetchAllOrdersAsync,
   selectOrders,
   selectTotalOrders,
+  updateOrderAsync,
 } from "../order/orderSlice";
-import { PencilIcon, EyeIcon } from "@heroicons/react/24/outline";
+import {
+  PencilIcon,
+  EyeIcon,
+  ArrowUpIcon,
+  ArrowDownIcon,
+} from "@heroicons/react/24/outline";
+import Pagination from "../../components/productCollection/Pagination";
 
 const AdminOrders = () => {
+  const [sort, setSort] = useState({});
   const [page, setPage] = useState(1);
+  const [editableOrderId, setEditableOrderId] = useState(-1);
 
   const dispatch = useDispatch();
   const orders = useSelector(selectOrders);
   const totalOrders = useSelector(selectTotalOrders);
 
+  const handleEdit = (order) => {
+    setEditableOrderId(order.id);
+  };
+
+  const handleShow = () => {
+    console.log("handle show");
+  };
+
+  const handleUpdate = (e, order) => {
+    const updateOrder = { ...order, status: e.target.value };
+    dispatch(updateOrderAsync(updateOrder));
+    setEditableOrderId(-1);
+  };
+
+  const handlePage = (page) => {
+    setPage(page);
+  };
+
+  const handleSort = (sortOption) => {
+    const sort = { _sort: sortOption.sort, _order: sortOption.order };
+    console.log({ sort });
+    setSort(sort);
+  };
+
+  const statusColor = (status) => {
+    switch (status) {
+      case "pending":
+        return "bg-purple-200 text-purple-600";
+      case "dispatched":
+        return "bg-yellow-200 text-yellow-600";
+      case "delivered":
+        return "bg-green-200 text-green-600";
+      case "cancelled":
+        return "bg-red-200 text-red-600";
+      default:
+        return "bg-purple-200 text-purple-600";
+    }
+  };
+
   useEffect(() => {
     const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
-    dispatch(fetchAllOrdersAsync({ pagination }));
-  }, [dispatch, page]);
+    dispatch(fetchAllOrdersAsync({ pagination, sort }));
+  }, [dispatch, page, sort]);
 
   return (
     <>
@@ -30,7 +78,22 @@ const AdminOrders = () => {
               <table className="min-w-max w-full table-auto">
                 <thead>
                   <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                    <th className="py-3 px-6 text-left">Order#</th>
+                    <th
+                      className="py-3 px-6 text-left cursor-pointer"
+                      onClick={() =>
+                        handleSort({
+                          sort: "id",
+                          order: sort._order === "asc" ? "desc" : "asc",
+                        })
+                      }>
+                      Order#{" "}
+                      {sort._sort === "id" &&
+                        (sort._order === "asc" ? (
+                          <ArrowUpIcon className="w-4 h-4 inline" />
+                        ) : (
+                          <ArrowDownIcon className="w-4 h-4 inline" />
+                        ))}
+                    </th>
                     <th className="py-3 px-6 text-left">Items</th>
                     <th className="py-3 px-6 text-center">Total Amount</th>
                     <th className="py-3 px-6 text-center">Shipping Address</th>
@@ -79,16 +142,32 @@ const AdminOrders = () => {
                         <div>{order.selectedAddress.phone}</div>
                       </td>
                       <td className="py-3 px-6 text-center">
-                        <span className="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">
-                          {order.status}
-                        </span>
+                        {order.id === editableOrderId ? (
+                          <select onChange={(e) => handleUpdate(e, order)}>
+                            <option value="pending">Pending</option>
+                            <option value="dispatched">Dispatched</option>
+                            <option value="delivered">Delivered</option>
+                            <option value="cancelled">Cancelled</option>
+                          </select>
+                        ) : (
+                          <span
+                            className={`${statusColor(
+                              order.status
+                            )} py-1 px-3 rounded-full capitalize text-xs`}>
+                            {order.status}
+                          </span>
+                        )}
                       </td>
                       <td className="py-3 px-6 text-center">
                         <div className="flex item-center justify-center gap-2">
-                          <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                          <div
+                            onClick={() => handleShow(order)}
+                            className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                             <EyeIcon className="w-5 h-5" />
                           </div>
-                          <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                          <div
+                            onClick={() => handleEdit(order)}
+                            className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                             <PencilIcon className="w-5 h-5" />
                           </div>
                         </div>
@@ -100,6 +179,12 @@ const AdminOrders = () => {
             </div>
           </div>
         </div>
+        <Pagination
+          handlePage={handlePage}
+          page={page}
+          setPage={setPage}
+          totalItems={totalOrders}
+        />
       </div>
     </>
   );
