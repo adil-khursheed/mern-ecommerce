@@ -6,6 +6,7 @@ import {
   updateCartAsync,
 } from "./cartSlice";
 import { discountedPrice } from "../../app/constants";
+import { toast } from "react-toastify";
 
 const Cart = () => {
   const products = useSelector(selectCartItems);
@@ -19,10 +20,12 @@ const Cart = () => {
 
   const handleQuantity = (e, product) => {
     dispatch(updateCartAsync({ ...product, quantity: +e.target.value }));
+    toast.info(`${product.title} Quantity Updated!`);
   };
 
   const handleRemove = (e, productId) => {
     dispatch(deleteItemFromCartAsync(productId));
+    toast.info(`Item Removed!`);
   };
 
   return (

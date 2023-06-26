@@ -4,6 +4,8 @@ import RegisterPage from "./pages/RegisterPage";
 import CartPage from "./pages/CartPage";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import CheckoutPage from "./pages/CheckoutPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import Protected from "./features/auth/Protected";
@@ -156,6 +158,7 @@ const App = () => {
 
   return (
     <div>
+      <ToastContainer autoClose={2000} />
       <RouterProvider router={router} />
     </div>
   );
